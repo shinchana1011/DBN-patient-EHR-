@@ -1,83 +1,102 @@
-DBN-Based Synthetic EHR Generator
+# 🧬 DBN-Based Synthetic EHR Generator
 
-A Deep Learning project for privacy-preserving healthcare data generation using Deep Belief Networks (DBNs).
+A deep learning project for generating **privacy-preserving synthetic healthcare data** using **Deep Belief Networks (DBNs)**.
 
-This system generates realistic synthetic Electronic Health Records (EHRs) while maintaining patient privacy, enabling safe use of healthcare data for machine learning and research.
+This system creates realistic Electronic Health Records (EHRs) without using real patient data, enabling safe use of healthcare data for research and machine learning.
 
-📌 Overview
+---
 
-Healthcare datasets are sensitive and restricted due to privacy regulations (HIPAA, etc.).
-This project solves that problem by:
+## 📌 Overview
 
-👉 Generating synthetic patient records
-👉 Preserving statistical properties of real data
-👉 Preventing data leakage and memorization
+Healthcare data is sensitive and cannot be freely shared due to privacy regulations.  
+This project addresses this problem by:
 
-🧠 Core Idea
+- Generating synthetic patient records
+- Preserving statistical properties of real data
+- Preventing memorization of actual patient data
 
-We use a Deep Belief Network (DBN), which is built by stacking multiple:
+---
 
-👉 Restricted Boltzmann Machines (RBMs)
+## 🧠 Methodology
 
-Each layer learns patterns at different levels:
+The project uses a **Deep Belief Network (DBN)**, built by stacking multiple **Restricted Boltzmann Machines (RBMs)**.
 
-Layer 1 → Low-level correlations (age ↔ BP)
-Layer 2 → Disease patterns
-Layer 3 → High-level patient representations
-🏗️ Project Architecture
-Synthetic Data Generator → Preprocessing → DBN (RBM Stack) → Synthetic Data
-                                         ↓
-                                  Evaluation Metrics
-📊 Features Generated
-👤 Demographics
-Age, Gender, BMI
-❤️ Vitals
-Heart rate, Blood pressure, Temperature, SpO2, Respiratory rate
-🧪 Lab Values
-Glucose, Creatinine, WBC, Hemoglobin, Platelets, Sodium, Potassium, HbA1c
-🏥 Diagnoses
-Diabetes, Hypertension, CKD, CHF, COPD
-🎯 Target
-ICU Admission
-⚙️ Technologies Used
-Python 🐍
-NumPy, Pandas
-Scikit-learn
-Streamlit (UI Dashboard)
-Matplotlib & Seaborn (Visualization)
-🚀 How It Works
-Step 1: Generate Synthetic EHR Data
-Uses probabilistic rules to simulate patient data
-Maintains realistic clinical relationships
-Step 2: Preprocessing
-Normalize data to range [0,1]
-Required for RBM sigmoid activation
-Step 3: Train DBN
-Greedy layer-wise training
-Each RBM learns feature patterns
-Step 4: Generate Synthetic Data
-Gibbs sampling on top RBM
-Data is reconstructed through layers
-Step 5: Evaluation
-📊 Statistical Metrics
-KS Test (distribution similarity)
-Correlation difference
-🤖 ML Utility
-TSTR (Train on Synthetic, Test on Real)
-AUC score comparison
-🔐 Privacy Metrics
-DCR (Distance to Closest Record)
-NNDR (Nearest Neighbor Distance Ratio)
-📈 Key Results
-Synthetic data closely matches real distributions
-ML models trained on synthetic data perform well on real data
-Privacy is preserved (NNDR ≥ 0.8)
-🔐 Privacy Assurance
+- RBM 1 → learns low-level feature relationships  
+- RBM 2 → learns disease patterns  
+- RBM 3 → learns abstract patient representations  
 
-We ensure no memorization using:
+Training is done using **Contrastive Divergence (CD-k)**, and data is generated using **Gibbs Sampling**.
 
-L2 Distance between records
-NNDR metric
+---
 
-👉 If NNDR ≥ 0.8 → Safe
-👉 Synthetic data is not copying real patients
+## 📊 Features in Dataset
+
+### 👤 Demographics
+- Age, Gender, BMI
+
+### ❤️ Vitals
+- Heart Rate, Blood Pressure, Temperature, SpO2, Respiratory Rate
+
+### 🧪 Lab Values
+- Glucose, Creatinine, WBC, Hemoglobin, Platelets, Sodium, Potassium, HbA1c
+
+### 🏥 Diagnoses
+- Diabetes, Hypertension, CKD, CHF, COPD
+
+### 🎯 Target
+- ICU Admission
+
+---
+
+## ⚙️ Tech Stack
+
+- Python  
+- NumPy, Pandas  
+- Scikit-learn  
+- Streamlit  
+- Matplotlib, Seaborn  
+
+---
+
+## 🚀 How It Works
+
+1. **Data Generation**
+   - Synthetic EHR data is created using probabilistic rules with clinical correlations.
+
+2. **Preprocessing**
+   - Continuous features are normalized to [0,1].
+
+3. **DBN Training**
+   - RBMs are trained layer-wise using Contrastive Divergence.
+
+4. **Data Generation**
+   - Gibbs sampling is used to generate synthetic patient records.
+
+5. **Evaluation**
+   - Statistical similarity, ML utility, and privacy are measured.
+
+---
+
+## 📈 Evaluation Metrics
+
+### Statistical Metrics
+- KS Test (distribution similarity)
+- Correlation Difference
+
+### Machine Learning Utility
+- TSTR (Train on Synthetic, Test on Real)
+- ROC-AUC Scores
+
+### Privacy Metrics
+- DCR (Distance to Closest Record)
+- NNDR (Nearest Neighbor Distance Ratio)
+
+---
+
+## 🔐 Privacy Assurance
+
+- Uses L2 distance to measure similarity between records  
+- Ensures synthetic data is not too close to real data  
+
+**Safe Condition:**  
+NNDR ≥ 0.8 → No memorization of real data  
